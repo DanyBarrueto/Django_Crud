@@ -5,22 +5,30 @@ from django.http import HttpResponse
 
 # Create your views here
 
+
 def home(request):
-    return render (request, 'home.html',)
+    return render(request, 'home.html',)
+
 
 def signup(request):
     if request.method == 'GET':
-        return render (request, 'signup.html',{
+        return render(request, 'signup.html', {
             'form': UserCreationForm
         })
     else:
         if request.POST['password1'] == request.POST['password2']:
-            #registrar usuario
+            # registrar usuario
             try:
-                user = User.objects.create_user(username=request.POST['username'],
-                password=request.POST['password1'])
+                user = User.objects.create_user(
+                    username=request.POST['username'], password=request.POST['password1'])
                 user.save()
                 return HttpResponse('Usuario creado correctamente')
             except:
-                return HttpResponse('Usuario ya existe')
-        return HttpResponse('Contraseñas no coinciden')
+                return render(request, 'signup.html', {
+                    'form': UserCreationForm,
+                    "error": 'Usuario ya existe'
+                })
+        return render(request, 'signup.html', {
+            'form': UserCreationForm,
+            "error": 'la Contraseña no coincide'
+        })
