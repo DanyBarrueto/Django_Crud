@@ -1,16 +1,16 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.db import IntegrityError
 
 # Create your views here
 
-
+#Ruta principal
 def home(request):
     return render(request, 'home.html',)
 
-
+#Configuración de la ruta para registrarse
 def signup(request):
     if request.method == 'GET':
         return render(request, 'signup.html', {
@@ -35,5 +35,11 @@ def signup(request):
             "error": 'la Contraseña no coincide'
         })
 
+#Ruta task
 def tasks (request):
     return render(request, 'tasks.html')
+
+#Configuración de la ruta para poder cerrar sesión
+def signout(request):
+    logout(request)
+    return redirect('home')
