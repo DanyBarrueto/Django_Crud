@@ -16,7 +16,14 @@
 <form action="{% url 'complete_task' task.id %}" method="post">
     {%csrf_token%}
     <button>
-        completado
+        Completado
+    </button>
+</form>
+
+<form action="{% url 'delete_task' task.id %}" method="post">
+    {%csrf_token%}
+    <button>
+        Eliminar
     </button>
 </form>
 

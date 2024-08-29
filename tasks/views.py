@@ -106,3 +106,13 @@ def complete_task(request, task_id):
         task.datecompleted = timezone.now()
         task.save()
         return redirect('tasks')
+    
+def delete_task(request, task_id):
+    task = get_object_or_404(Task, pk=task_id, user=request.user)
+    if request.method == 'POST':
+        task.delete()
+        return redirect('tasks')
+
+def tasks_completed(request):
+    tasks = Task.objects.filter(user=request.user, datecompleted__isnull=False).order_by('-datecompleted')
+    return render(request, 'tasks.html',{'tasks': tasks} )
